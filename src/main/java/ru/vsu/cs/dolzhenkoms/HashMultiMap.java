@@ -1,6 +1,8 @@
 package ru.vsu.cs.dolzhenkoms;
 
 
+import java.util.List;
+
 public class HashMultiMap<K, V> {
     private HashMap<K, HashSet<V>> maps;
 
@@ -64,6 +66,10 @@ public class HashMultiMap<K, V> {
                 return false;
         }
         return true;
+    }
+
+    public List<K> keys() {
+        return maps.keys();
     }
 
     public void clear() {
