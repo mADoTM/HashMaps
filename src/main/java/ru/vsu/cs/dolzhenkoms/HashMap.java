@@ -1,6 +1,8 @@
 package ru.vsu.cs.dolzhenkoms;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 public final class HashMap<K, V> {
@@ -27,7 +29,11 @@ public final class HashMap<K, V> {
             if (buckets[bucketHash].getKey().equals(newBucket.getKey())) {
                 buckets[bucketHash].setValue(newBucket.getValue());
             } else {
-                buckets[bucketHash].setNext(newBucket);
+                var temp = buckets[bucketHash];
+                while(temp.getNext() != null) {
+                    temp = temp.getNext();
+                }
+                temp.setNext(newBucket);
             }
         }
     }
@@ -58,6 +64,19 @@ public final class HashMap<K, V> {
         buckets = new Bucket[capacity];
     }
 
+    public List<K> keys() {
+        List<K> keys = new ArrayList<>();
+
+        for (Bucket<K, V> bucket : Arrays.stream(buckets).filter(Objects::nonNull).toList()) {
+            var temp = bucket;
+            while (temp != null) {
+                keys.add(temp.getKey());
+                temp = temp.getNext();
+            }
+        }
+
+        return keys;
+    }
     public int size() {
         int count = 0;
 
